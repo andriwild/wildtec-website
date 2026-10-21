@@ -51,7 +51,6 @@ The custom domain `wild-tec.ch` is set in the repository's Pages settings; `publ
 | `wild-tec.ch` | A | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
 | `wild-tec.ch` | AAAA | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` (or no AAAA at all) |
 | `www.wild-tec.ch` | CNAME | `andriwild.github.io` |
-| `wild-tec.ch` | MX | `mx1.improvmx.com` (10), `mx2.improvmx.com` (20) |
-| `wild-tec.ch` | TXT | `v=spf1 include:spf.improvmx.com ~all` |
+| `wild-tec.ch` | MX | `www175.your-server.de` (10), unchanged |
 
-Mail for `@wild-tec.ch` is forwarded by [ImprovMX](https://improvmx.com); there is no mailbox on the domain itself.
+Mail for `@wild-tec.ch` runs on a Hetzner web hosting (`your-server.de`); only the web records point to GitHub.
