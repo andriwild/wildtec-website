@@ -5,6 +5,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://wild-tec.ch',
   trailingSlash: 'always',
+  // The CSS is small; inlining it saves a render-blocking request per page.
+  build: { inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       i18n: {

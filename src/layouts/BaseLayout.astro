@@ -5,6 +5,7 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import { homeCard, ogImageOf, ogImageSize } from '../lib/og/cards';
 import { languageTags, locales, ogLocales, type Locale, type Localized } from '../i18n/locales';
 import { useTranslations } from '../i18n/translations';
 
@@ -14,9 +15,13 @@ interface Props {
   description: string;
   /** Path of this page in every locale. */
   alternates: Localized;
+  /** Social preview image; defaults to the home card of the locale. */
+  image?: { src: string; alt: string };
+  /** Keeps the page out of search results, e.g. the 404 page. */
+  noindex?: boolean;
 }
 
-const { locale, title, description, alternates } = Astro.props;
+const { locale, title, description, alternates, image = ogImageOf(homeCard(locale)), noindex = false } = Astro.props;
 const t = useTranslations(locale);
 const absolute = (path: string) => new URL(path, Astro.site).href;
 const canonical = absolute(alternates[locale]);
@@ -29,10 +34,21 @@ const canonical = absolute(alternates[locale]);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {locales.map((l) => <link rel="alternate" hreflang={languageTags[l]} href={absolute(alternates[l])} />)}
-    <link rel="alternate" hreflang="x-default" href={absolute(alternates.de)} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          {locales.map((l) => (
+            <link rel="alternate" hreflang={languageTags[l]} href={absolute(alternates[l])} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={absolute(alternates.de)} />
+        </>
+      )
+    }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#ffffff" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Wild Tec" />
@@ -40,6 +56,13 @@ const canonical = absolute(alternates[locale]);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocales[locale]} />
+    {locales.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={ogLocales[l]} />)}
+    <meta property="og:image" content={absolute(image.src)} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(ogImageSize.width)} />
+    <meta property="og:image:height" content={String(ogImageSize.height)} />
+    <meta property="og:image:alt" content={image.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
   </head>
   <body>

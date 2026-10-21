@@ -1,4 +1,6 @@
 ---
+import { markPoints } from '../../data/brand';
+
 interface Props {
   href: string;
 }
@@ -10,7 +12,7 @@ const { href } = Astro.props;
   <svg viewBox="0 0 30 30" aria-hidden="true">
     <rect width="30" height="30" rx="8" fill="var(--ink)"></rect>
     <polyline
-      points="6.5,9 10.5,21 15,12.5 19.5,21 23.5,9"
+      points={markPoints}
       fill="none"
       stroke="var(--bg)"
       stroke-width="3"

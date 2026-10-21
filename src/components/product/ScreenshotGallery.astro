@@ -16,7 +16,7 @@ const { screenshots, tint, label, locale } = Astro.props;
 <div class="gallery" style={`--tint: ${tint}`} role="region" aria-label={label} tabindex="0">
   {
     screenshots.map((screenshot, index) => (
-      <PhoneFrame image={screenshot.image[locale]} alt={screenshot.alt[locale]} width={196} eager={index < 3} />
+      <PhoneFrame image={screenshot.image[locale]} alt={screenshot.alt[locale]} width={196} eager={index < 3} priority={index === 0} />
     ))
   }
 </div>

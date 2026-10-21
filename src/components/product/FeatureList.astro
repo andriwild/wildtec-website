@@ -14,7 +14,7 @@ const { features, locale } = Astro.props;
   {
     features.map((feature) => (
       <div>
-        <h3>{feature.title[locale]}</h3>
+        <h2>{feature.title[locale]}</h2>
         <p>{feature.text[locale]}</p>
       </div>
     ))
@@ -29,7 +29,7 @@ const { features, locale } = Astro.props;
     padding-block: 64px;
   }
 
-  h3 {
+  h2 {
     margin-bottom: 6px;
     font-size: 1.2rem;
     font-weight: 700;

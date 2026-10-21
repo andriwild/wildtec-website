@@ -2,7 +2,7 @@ export const de = {
   meta: {
     homeTitle: 'Wild Tec – Softwareentwicklung aus der Schweiz',
     homeDescription:
-      'Wild Tec entwickelt Apps für iOS, Android und das Web. Von der ersten Idee bis in den App Store.',
+      'Wild Tec entwickelt Apps für iOS, Android und das Web, von der ersten Idee bis in den App Store. Softwareentwicklung aus Dagmersellen im Kanton Luzern.',
   },
   nav: {
     skip: 'Zum Inhalt springen',

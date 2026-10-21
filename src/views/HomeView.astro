@@ -2,12 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactSection from '../components/home/ContactSection.astro';
 import Hero from '../components/home/Hero.astro';
-import OrganizationJsonLd from '../components/home/OrganizationJsonLd.astro';
 import ProductSection from '../components/home/ProductSection.astro';
 import ServiceSection from '../components/home/ServiceSection.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
 import type { Locale } from '../i18n/locales';
 import { alternatesOf, routes } from '../i18n/routes';
 import { useTranslations } from '../i18n/translations';
+import { organization, website } from '../lib/seo/structuredData';
 
 interface Props {
   locale: Locale;
@@ -23,7 +24,7 @@ const t = useTranslations(locale);
   description={t.meta.homeDescription}
   alternates={alternatesOf(routes.home)}
 >
-  <OrganizationJsonLd slot="head" />
+  <JsonLd slot="head" things={[organization, website]} />
   <Hero locale={locale} />
   <ProductSection locale={locale} />
   <ServiceSection locale={locale} />

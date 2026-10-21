@@ -26,7 +26,7 @@ const t = useTranslations(locale);
   </div>
   <div class="fan" aria-hidden="true">
     {heroScreens.map((screen, index) => (
-      <PhoneFrame image={screen.image[locale]} alt="" width={index === 1 ? 208 : 176} eager />
+      <PhoneFrame image={screen.image[locale]} alt="" width={index === 1 ? 208 : 176} eager priority={index === 1} />
     ))}
   </div>
 </div>

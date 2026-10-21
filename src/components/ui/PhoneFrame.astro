@@ -8,10 +8,12 @@ interface Props {
   /** Largest CSS width the phone is shown at; drives the generated image sizes. */
   width?: number;
   eager?: boolean;
+  /** Marks the largest image above the fold so the browser fetches it first. */
+  priority?: boolean;
   class?: string;
 }
 
-const { image, alt, width = 200, eager = false, class: className } = Astro.props;
+const { image, alt, width = 200, eager = false, priority = false, class: className } = Astro.props;
 ---
 
 <div class:list={['phone', className]}>
@@ -20,7 +22,8 @@ const { image, alt, width = 200, eager = false, class: className } = Astro.props
     alt={alt}
     widths={[width, width * 2]}
     sizes={`${width}px`}
-    loading={eager ? 'eager' : 'lazy'}
+    loading={eager || priority ? 'eager' : 'lazy'}
+    priority={priority}
   />
 </div>
 

@@ -4,10 +4,13 @@ import FeatureList from '../components/product/FeatureList.astro';
 import ProductHeader from '../components/product/ProductHeader.astro';
 import ScreenshotGallery from '../components/product/ScreenshotGallery.astro';
 import ShowcaseBlock from '../components/product/ShowcaseBlock.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
 import type { Product } from '../data/products';
 import type { Locale } from '../i18n/locales';
 import { alternatesOf, routes } from '../i18n/routes';
 import { useTranslations } from '../i18n/translations';
+import { ogImageOf, productCard } from '../lib/og/cards';
+import { breadcrumbs } from '../lib/seo/structuredData';
 
 interface Props {
   product: Product;
@@ -16,14 +19,21 @@ interface Props {
 
 const { product, locale } = Astro.props;
 const t = useTranslations(locale);
+const tagline = product.tagline[locale].replace(/\.$/, '');
+const trail = breadcrumbs([
+  { name: 'Wild Tec', path: routes.home(locale) },
+  { name: product.name, path: routes.product(product.slug, locale) },
+]);
 ---
 
 <BaseLayout
   locale={locale}
-  title={`${product.name} – ${product.tagline[locale]} | Wild Tec`}
+  title={`${product.name} – ${tagline} | Wild Tec`}
   description={product.summary[locale]}
   alternates={alternatesOf((l) => routes.product(product.slug, l))}
+  image={ogImageOf(productCard(product, locale))}
 >
+  <JsonLd slot="head" things={[trail]} />
   <ProductHeader product={product} locale={locale} />
   <ScreenshotGallery
     screenshots={product.screenshots}

@@ -1,0 +1,11 @@
+---
+import { graph, type Thing } from '../../lib/seo/structuredData';
+
+interface Props {
+  things: Thing[];
+}
+
+const { things } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph(things))} />

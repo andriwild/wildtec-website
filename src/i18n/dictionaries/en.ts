@@ -4,7 +4,7 @@ export const en: Dictionary = {
   meta: {
     homeTitle: 'Wild Tec – Software development from Switzerland',
     homeDescription:
-      'Wild Tec builds apps for iOS, Android and the web. From the first idea all the way to the App Store.',
+      'Wild Tec builds apps for iOS, Android and the web, from the first idea all the way to the App Store. Software development from Dagmersellen, Switzerland.',
   },
   nav: {
     skip: 'Skip to content',
