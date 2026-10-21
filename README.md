@@ -37,7 +37,7 @@ src/
 ## Design decisions
 
 - Light theme only, no dark mode.
-- Fonts (Schibsted Grotesk, Figtree) are self-hosted via Fontsource. The site loads nothing from third parties and sets no cookies, which keeps the privacy page short.
+- Fonts (Schibsted Grotesk, Figtree) are self-hosted via Fontsource. The site loads nothing from third parties and sets no cookies, which keeps the privacy page short. Visitor statistics come from the self-hosted, cookieless Umami at `analytics.wild-tec.ch` (`src/data/analytics.ts`), which also counts the other Wild Tec sites.
 - Plain scoped CSS per component instead of Tailwind. The site is small and the tokens in `src/styles/tokens.css` cover the design system.
 - jassly screenshots are cropped out of the device frames from jassly-web, so all products share the same CSS phone frame.
 

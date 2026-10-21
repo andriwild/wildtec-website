@@ -1,0 +1,10 @@
+---
+import { analytics } from '../../data/analytics';
+---
+
+<script
+  is:inline
+  defer
+  src={analytics.scriptUrl}
+  data-website-id={analytics.websiteId}
+  data-domains={analytics.domains}></script>

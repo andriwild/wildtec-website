@@ -3,6 +3,7 @@ import '@fontsource-variable/figtree';
 import '@fontsource-variable/schibsted-grotesk';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import Analytics from '../components/layout/Analytics.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { homeCard, ogImageOf, ogImageSize } from '../lib/og/cards';
@@ -63,6 +64,7 @@ const canonical = absolute(alternates[locale]);
     <meta property="og:image:height" content={String(ogImageSize.height)} />
     <meta property="og:image:alt" content={image.alt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <Analytics />
     <slot name="head" />
   </head>
   <body>
