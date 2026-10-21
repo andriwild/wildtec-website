@@ -1,0 +1,113 @@
+---
+import Button from '../ui/Button.astro';
+import PhoneFrame from '../ui/PhoneFrame.astro';
+import { heroScreens } from '../../data/hero';
+import type { Locale } from '../../i18n/locales';
+import { sectionHref } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<div class="wrap hero">
+  <div class="copy">
+    <span class="eyebrow">{t.hero.eyebrow}</span>
+    <h1>{t.hero.titleStart}<span class="hl">{t.hero.titleHighlight}</span>{t.hero.titleEnd}</h1>
+    <p class="lead">{t.hero.lead}</p>
+    <div class="actions">
+      <Button href={sectionHref('contact', locale)}>{t.hero.primaryCta}</Button>
+      <Button href={sectionHref('products', locale)} variant="ghost">{t.hero.secondaryCta}</Button>
+    </div>
+  </div>
+  <div class="fan" aria-hidden="true">
+    {heroScreens.map((screen, index) => (
+      <PhoneFrame image={screen.image[locale]} alt="" width={index === 1 ? 208 : 176} eager />
+    ))}
+  </div>
+</div>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    padding-block: 72px 88px;
+  }
+
+  .copy {
+    display: grid;
+    gap: 22px;
+    min-width: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5.6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  .hl {
+    color: var(--accent);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .fan {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-block: 12px 24px;
+  }
+
+  .fan::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 78%;
+    aspect-ratio: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft) 0%, var(--accent-soft) 55%, transparent 71%);
+  }
+
+  .fan > :global(.phone) {
+    --w: clamp(104px, 15vw, 176px);
+  }
+
+  .fan > :global(.phone:nth-child(1)) {
+    transform: rotate(-7deg) translate(14px, 14px);
+  }
+
+  .fan > :global(.phone:nth-child(2)) {
+    --w: clamp(124px, 18vw, 208px);
+    z-index: 2;
+    margin-inline: -18px;
+  }
+
+  .fan > :global(.phone:nth-child(3)) {
+    transform: rotate(7deg) translate(-14px, 14px);
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 44px;
+      padding-block: 44px 64px;
+    }
+  }
+</style>

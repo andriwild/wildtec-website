@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import { company } from '../data/company';
+import type { Locale, Localized } from '../i18n/locales';
+import { alternatesOf, routes } from '../i18n/routes';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const labels: Localized<{ company: string; legalForm: string; address: string; liability: string }> = {
+  de: { company: 'Firma', legalForm: 'Rechtsform', address: 'Adresse', liability: 'Haftung' },
+  en: { company: 'Company', legalForm: 'Legal form', address: 'Address', liability: 'Liability' },
+};
+
+const liability: Localized = {
+  de: 'Wir prüfen die Inhalte dieser Webseite sorgfältig, übernehmen aber keine Gewähr für Richtigkeit und Vollständigkeit. Für verlinkte Seiten sind deren Betreiber verantwortlich.',
+  en: 'We check the content of this website carefully but accept no liability for its accuracy or completeness. Linked websites are the responsibility of their operators.',
+};
+
+const label = labels[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${t.footer.imprint} – Wild Tec`}
+  description={`${t.footer.imprint} ${company.name}, ${company.city}`}
+  alternates={alternatesOf(routes.imprint)}
+>
+  <LegalPage title={t.footer.imprint} locale={locale}>
+    <dl>
+      <dt>{label.company}</dt>
+      <dd>{company.name}</dd>
+      <dt>{label.legalForm}</dt>
+      <dd>{company.legalForm[locale]}</dd>
+      <dt>{label.address}</dt>
+      <dd>{company.street}, {company.postalCode} {company.city}, {company.country[locale]}</dd>
+      <dt>E-Mail</dt>
+      <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+      <dt>UID</dt>
+      <dd>{company.uid}</dd>
+    </dl>
+    <div>
+      <h2>{label.liability}</h2>
+      <p>{liability[locale]}</p>
+    </div>
+  </LegalPage>
+</BaseLayout>
+
+<style>
+  dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 8px 24px;
+    margin: 0;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 420px) {
+    dl {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+    }
+
+    dd {
+      margin-bottom: 10px;
+    }
+  }
+</style>

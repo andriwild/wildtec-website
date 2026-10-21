@@ -1,0 +1,44 @@
+---
+import ProductCard from './ProductCard.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import { products } from '../../data/products';
+import type { Locale } from '../../i18n/locales';
+import { sectionIds } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id={sectionIds.products[locale]}>
+  <div class="wrap">
+    <SectionHead eyebrow={t.products.eyebrow} title={t.products.title} />
+    <div class="grid">
+      {products.map((product) => <ProductCard product={product} locale={locale} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding-block: 88px;
+    background: var(--bg-soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 520px;
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { alternatesOf, routes } from '../i18n/routes';
+---
+
+<BaseLayout
+  locale="de"
+  title="Seite nicht gefunden – Wild Tec"
+  description="Diese Seite gibt es nicht. This page does not exist."
+  alternates={alternatesOf(routes.home)}
+>
+  <div class="wrap missing">
+    <span class="eyebrow">404</span>
+    <h1>Seite nicht gefunden.</h1>
+    <p class="lead" lang="en">Page not found.</p>
+    <div class="actions">
+      <Button href={routes.home('de')}>Zur Startseite</Button>
+      <Button href={routes.home('en')} variant="ghost"><span lang="en">English home</span></Button>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .missing {
+    display: grid;
+    gap: 18px;
+    padding-block: 96px 120px;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+</style>

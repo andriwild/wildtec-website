@@ -1,0 +1,39 @@
+---
+import PhoneFrame from '../ui/PhoneFrame.astro';
+import type { Screenshot } from '../../data/products';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  screenshots: Screenshot[];
+  tint: string;
+  label: string;
+  locale: Locale;
+}
+
+const { screenshots, tint, label, locale } = Astro.props;
+---
+
+<div class="gallery" style={`--tint: ${tint}`} role="region" aria-label={label} tabindex="0">
+  {
+    screenshots.map((screenshot, index) => (
+      <PhoneFrame image={screenshot.image[locale]} alt={screenshot.alt[locale]} width={196} eager={index < 3} />
+    ))
+  }
+</div>
+
+<style>
+  .gallery {
+    display: flex;
+    justify-content: safe center;
+    gap: 28px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 56px 24px 64px;
+    background: var(--tint);
+  }
+
+  .gallery > :global(.phone) {
+    --w: 196px;
+    scroll-snap-align: center;
+  }
+</style>

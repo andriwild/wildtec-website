@@ -1,0 +1,50 @@
+---
+import ServiceIcon from './ServiceIcon.astro';
+import type { Service } from '../../data/services';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+
+const { service, locale } = Astro.props;
+---
+
+<article>
+  <div class="icon"><ServiceIcon name={service.icon} /></div>
+  <h3>{service.title[locale]}</h3>
+  <p>{service.text[locale]}</p>
+</article>
+
+<style>
+  article {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 28px 24px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  h3 {
+    font-size: 1.12rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 15.5px;
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import { company } from '../data/company';
+import type { Locale, Localized } from '../i18n/locales';
+import { alternatesOf, routes } from '../i18n/routes';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const sections: { title: Localized; text: Localized }[] = [
+  {
+    title: { de: 'Keine Cookies, kein Tracking', en: 'No cookies, no tracking' },
+    text: {
+      de: 'Diese Webseite setzt keine Cookies, verwendet keine Analyse-Tools und lädt keine Inhalte von Drittanbietern.',
+      en: 'This website sets no cookies, uses no analytics tools and loads no third-party content.',
+    },
+  },
+  {
+    title: { de: 'Hosting', en: 'Hosting' },
+    text: {
+      de: 'Die Webseite wird über GitHub Pages ausgeliefert. Dabei verarbeitet GitHub technisch notwendige Daten wie die IP-Adresse.',
+      en: 'The website is served via GitHub Pages. GitHub processes technically necessary data such as your IP address.',
+    },
+  },
+  {
+    title: { de: 'Kontakt per E-Mail', en: 'Contact by e-mail' },
+    text: {
+      de: `Ihre Angaben verwenden wir nur, um Ihre Anfrage zu beantworten. Fragen zum Datenschutz: ${company.email}.`,
+      en: `We only use your details to answer your enquiry. Privacy questions: ${company.email}.`,
+    },
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${t.footer.privacy} – Wild Tec`}
+  description={sections[0]!.text[locale]}
+  alternates={alternatesOf(routes.privacy)}
+>
+  <LegalPage title={t.footer.privacy} locale={locale}>
+    {
+      sections.map((section) => (
+        <div>
+          <h2>{section.title[locale]}</h2>
+          <p>{section.text[locale]}</p>
+        </div>
+      ))
+    }
+  </LegalPage>
+</BaseLayout>

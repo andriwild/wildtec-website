@@ -1,0 +1,55 @@
+---
+import { company } from '../../data/company';
+import type { Locale } from '../../i18n/locales';
+import { routes } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap foot">
+    <span>© {year} {company.name} · {company.city} · UID {company.uid}</span>
+    <nav aria-label={t.footer.legal}>
+      <a href={routes.imprint(locale)}>{t.footer.imprint}</a>
+      <a href={routes.privacy(locale)}>{t.footer.privacy}</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding-block: 32px 44px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+</style>

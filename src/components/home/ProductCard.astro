@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import PhoneFrame from '../ui/PhoneFrame.astro';
+import StatusChip from '../ui/StatusChip.astro';
+import type { Product } from '../../data/products';
+import type { Locale } from '../../i18n/locales';
+import { routes } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<a class="card" href={routes.product(product.slug, locale)}>
+  <div class="visual" style={`--tint: ${product.tint}`}>
+    <PhoneFrame image={product.cover.image[locale]} alt={product.cover.alt[locale]} width={190} />
+  </div>
+  <div class="body">
+    <div class="title">
+      <Image src={product.icon} alt="" width={40} height={40} densities={[1, 2]} />
+      <h3>{product.name}</h3>
+      <StatusChip status={product.status} locale={locale} />
+    </div>
+    <p>{product.summary[locale]}</p>
+    <span class="more">{t.products.learnMore} →</span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px -28px rgb(14 23 48 / 0.35);
+  }
+
+  .visual {
+    display: flex;
+    justify-content: center;
+    height: 250px;
+    padding-top: 32px;
+    overflow: hidden;
+    background: var(--tint);
+  }
+
+  .visual > :global(.phone) {
+    --w: 190px;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover .visual > :global(.phone) {
+    transform: translateY(-8px);
+  }
+
+  .body {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 24px;
+  }
+
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .title img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 15.5px;
+  }
+
+  .more {
+    margin-top: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--accent);
+  }
+</style>

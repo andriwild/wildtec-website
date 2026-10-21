@@ -1,0 +1,45 @@
+---
+import type { ServiceIcon } from '../../data/services';
+
+interface Props {
+  name: ServiceIcon;
+}
+
+const { name } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {
+    name === 'phone' && (
+      <>
+        <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+        <path d="M10.5 18.5h3" />
+      </>
+    )
+  }
+  {
+    name === 'browser' && (
+      <>
+        <rect x="2.5" y="4" width="19" height="16" rx="2.5" />
+        <path d="M2.5 8.5h19" />
+      </>
+    )
+  }
+  {name === 'cloud' && <path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4.5 4.5 0 0 1-.5 9.5z" />}
+  {name === 'bluetooth' && <path d="M7 7l10 10-5 4.5V2.5L17 7 7 17" />}
+</svg>
+
+<style>
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import { principles } from '../../data/approach';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="approach">
+  {
+    principles.map((principle) => (
+      <div>
+        <h3>{principle.title[locale]}</h3>
+        <p>{principle.text[locale]}</p>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .approach {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+
+  h3 {
+    margin-bottom: 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--muted);
+    max-width: 32ch;
+  }
+
+  @media (max-width: 760px) {
+    .approach {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+</style>

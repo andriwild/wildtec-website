@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureList from '../components/product/FeatureList.astro';
+import ProductHeader from '../components/product/ProductHeader.astro';
+import ScreenshotGallery from '../components/product/ScreenshotGallery.astro';
+import ShowcaseBlock from '../components/product/ShowcaseBlock.astro';
+import type { Product } from '../data/products';
+import type { Locale } from '../i18n/locales';
+import { alternatesOf, routes } from '../i18n/routes';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${product.name} – ${product.tagline[locale]} | Wild Tec`}
+  description={product.summary[locale]}
+  alternates={alternatesOf((l) => routes.product(product.slug, l))}
+>
+  <ProductHeader product={product} locale={locale} />
+  <ScreenshotGallery
+    screenshots={product.screenshots}
+    tint={product.tint}
+    label={`${product.name} ${t.products.screenshots}`}
+    locale={locale}
+  />
+  <FeatureList features={product.features} locale={locale} />
+  {
+    product.showcases.length > 0 && (
+      <div class="showcases">
+        {product.showcases.map((showcase, index) => (
+          <ShowcaseBlock showcase={showcase} locale={locale} reverse={index % 2 === 1} tint={product.tint} />
+        ))}
+      </div>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .showcases {
+    display: grid;
+    gap: 24px;
+    padding-bottom: 88px;
+  }
+</style>

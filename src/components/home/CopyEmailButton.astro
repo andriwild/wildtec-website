@@ -1,0 +1,69 @@
+---
+interface Props {
+  email: string;
+  labels: { copy: string; copied: string; selected: string };
+  /** Id of the element whose text is selected when the clipboard is unavailable. */
+  fallbackTargetId: string;
+}
+
+const { email, labels, fallbackTargetId } = Astro.props;
+---
+
+<button
+  class="copy"
+  type="button"
+  data-copy-email={email}
+  data-fallback-target={fallbackTargetId}
+  data-label-copy={labels.copy}
+  data-label-copied={labels.copied}
+  data-label-selected={labels.selected}
+>
+  {labels.copy}
+</button>
+
+<script>
+  const RESET_AFTER_MS = 1600;
+
+  function flash(button: HTMLButtonElement, text: string) {
+    button.textContent = text;
+    setTimeout(() => (button.textContent = button.dataset.labelCopy ?? ''), RESET_AFTER_MS);
+  }
+
+  function selectText(button: HTMLButtonElement) {
+    const target = document.getElementById(button.dataset.fallbackTarget ?? '');
+    const selection = window.getSelection();
+    if (!target || !selection) return;
+    const range = document.createRange();
+    range.selectNodeContents(target);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    flash(button, button.dataset.labelSelected ?? '');
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? '');
+        flash(button, button.dataset.labelCopied ?? '');
+      } catch {
+        selectText(button);
+      }
+    });
+  });
+</script>
+
+<style>
+  .copy {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--on-ink-line);
+    background: transparent;
+    color: var(--on-ink);
+    font: 600 13px/1 var(--body);
+    cursor: pointer;
+  }
+
+  .copy:hover {
+    border-color: var(--on-ink);
+  }
+</style>

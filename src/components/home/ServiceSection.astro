@@ -1,0 +1,50 @@
+---
+import Approach from './Approach.astro';
+import ServiceCard from './ServiceCard.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import { services } from '../../data/services';
+import type { Locale } from '../../i18n/locales';
+import { sectionIds } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id={sectionIds.services[locale]}>
+  <div class="wrap">
+    <SectionHead eyebrow={t.services.eyebrow} title={t.services.title} />
+    <div class="grid">
+      {services.map((service) => <ServiceCard service={service} locale={locale} />)}
+    </div>
+    <Approach locale={locale} />
+  </div>
+</section>
+
+<style>
+  section {
+    padding-block: 88px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 960px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

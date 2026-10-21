@@ -1,0 +1,48 @@
+---
+import type { Feature } from '../../data/products';
+import type { Locale } from '../../i18n/locales';
+
+interface Props {
+  features: Feature[];
+  locale: Locale;
+}
+
+const { features, locale } = Astro.props;
+---
+
+<div class="wrap features">
+  {
+    features.map((feature) => (
+      <div>
+        <h3>{feature.title[locale]}</h3>
+        <p>{feature.text[locale]}</p>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    padding-block: 64px;
+  }
+
+  h3 {
+    margin-bottom: 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .features {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+</style>

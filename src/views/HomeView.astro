@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/home/ContactSection.astro';
+import Hero from '../components/home/Hero.astro';
+import OrganizationJsonLd from '../components/home/OrganizationJsonLd.astro';
+import ProductSection from '../components/home/ProductSection.astro';
+import ServiceSection from '../components/home/ServiceSection.astro';
+import type { Locale } from '../i18n/locales';
+import { alternatesOf, routes } from '../i18n/routes';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={t.meta.homeTitle}
+  description={t.meta.homeDescription}
+  alternates={alternatesOf(routes.home)}
+>
+  <OrganizationJsonLd slot="head" />
+  <Hero locale={locale} />
+  <ProductSection locale={locale} />
+  <ServiceSection locale={locale} />
+  <ContactSection locale={locale} />
+</BaseLayout>

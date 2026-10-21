@@ -1,0 +1,80 @@
+---
+import Logo from './Logo.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import type { Locale, Localized } from '../../i18n/locales';
+import { routes, sectionHref } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  alternates: Localized;
+}
+
+const { locale, alternates } = Astro.props;
+const t = useTranslations(locale);
+const links = [
+  { href: sectionHref('products', locale), label: t.nav.products },
+  { href: sectionHref('services', locale), label: t.nav.services },
+  { href: sectionHref('contact', locale), label: t.nav.contact },
+];
+---
+
+<header class="top">
+  <div class="wrap bar">
+    <Logo href={routes.home(locale)} />
+    <div class="right">
+      <nav aria-label={t.nav.label}>
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+      <LanguageSwitch locale={locale} alternates={alternates} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: var(--header-h);
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  nav a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  nav a:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    nav {
+      display: none;
+    }
+  }
+</style>

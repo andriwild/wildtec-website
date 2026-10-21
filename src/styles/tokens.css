@@ -1,0 +1,30 @@
+/* Design tokens: one light theme, cool neutrals biased toward the ink navy. */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f4f6fa;
+  --ink: #0e1730;
+  --ink-hover: #1e2a4a;
+  --muted: #5a6478;
+  --line: #e4e8f0;
+  --accent: #2f5bea;
+  --accent-soft: #eaf0ff;
+  --frame: #0b0f1a;
+
+  --on-ink: #ffffff;
+  --on-ink-muted: #b8c0d4;
+  --on-ink-line: #3a4666;
+
+  --ok: #12804a;
+  --ok-soft: #e2f4ea;
+  --beta: #8a5a00;
+  --beta-soft: #fff1d3;
+
+  --display: 'Schibsted Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'Figtree Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --maxw: 1120px;
+  --header-h: 68px;
+  --radius: 16px;
+
+  color-scheme: light;
+}

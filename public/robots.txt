@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wild-tec.ch/sitemap-index.xml

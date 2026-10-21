@@ -1,0 +1,105 @@
+---
+import CopyEmailButton from './CopyEmailButton.astro';
+import { company } from '../../data/company';
+import type { Locale } from '../../i18n/locales';
+import { sectionIds } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id={sectionIds.contact[locale]}>
+  <div class="wrap">
+    <div class="card">
+      <div>
+        <h2>{t.contact.title}</h2>
+        <p class="lead">{t.contact.lead}</p>
+        <div class="mail-row">
+          <a class="mail" id="contact-email" href={`mailto:${company.email}`}>{company.email}</a>
+          <CopyEmailButton email={company.email} labels={t.contact} fallbackTargetId="contact-email" />
+        </div>
+      </div>
+      <address>
+        <strong>{company.name}</strong><br />
+        {company.street}<br />
+        {company.postalCode} {company.city}<br />
+        {company.country[locale]}
+      </address>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding-block: 0 88px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    padding: 48px;
+    border-radius: 22px;
+    background: var(--ink);
+    color: var(--on-ink);
+  }
+
+  .lead {
+    margin-top: 10px;
+    color: var(--on-ink-muted);
+  }
+
+  .mail-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin-top: 28px;
+  }
+
+  .mail {
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--on-ink-line);
+    color: var(--on-ink);
+    font: 700 clamp(1.4rem, 3.2vw, 2.1rem)/1.1 var(--display);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .mail:hover {
+    border-color: var(--on-ink);
+  }
+
+  address {
+    padding-left: 28px;
+    border-left: 1px solid var(--on-ink-line);
+    color: var(--on-ink-muted);
+    font-style: normal;
+    line-height: 1.75;
+  }
+
+  strong {
+    color: var(--on-ink);
+    font-weight: 600;
+  }
+
+  @media (max-width: 760px) {
+    .card {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 32px 24px;
+    }
+
+    address {
+      padding: 24px 0 0;
+      border-left: 0;
+      border-top: 1px solid var(--on-ink-line);
+    }
+  }
+</style>

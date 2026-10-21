@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import StatusChip from '../ui/StatusChip.astro';
+import type { Product } from '../../data/products';
+import type { Locale } from '../../i18n/locales';
+import { sectionHref } from '../../i18n/routes';
+import { useTranslations } from '../../i18n/translations';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const t = useTranslations(locale);
+const domain = new URL(product.url).hostname;
+---
+
+<div class="wrap">
+  <div class="header">
+    <a class="back" href={sectionHref('products', locale)}>← {t.products.allProducts}</a>
+    <div class="title">
+      <Image src={product.icon} alt="" width={64} height={64} densities={[1, 2]} loading="eager" />
+      <h1>{product.name}</h1>
+      <StatusChip status={product.status} locale={locale} />
+    </div>
+    <p class="tagline">{product.tagline[locale]}</p>
+    <p class="lead">{product.description[locale]}</p>
+    <p class="platforms"><b>{t.products.platforms}</b> · {product.platforms.join(' · ')}</p>
+    <div>
+      <Button href={product.url} external>{domain} ↗</Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header {
+    display: grid;
+    gap: 22px;
+    max-width: 760px;
+    padding-block: 40px 56px;
+  }
+
+
+  .back {
+    display: inline-flex;
+    width: fit-content;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .back:hover {
+    color: var(--ink);
+  }
+
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .title img {
+    width: 64px;
+    height: 64px;
+    border-radius: 15px;
+    box-shadow:
+      0 0 0 1px var(--line),
+      0 10px 24px -14px rgb(14 23 48 / 0.4);
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .tagline {
+    font: 700 clamp(1.35rem, 2.6vw, 1.8rem)/1.25 var(--display);
+    letter-spacing: -0.015em;
+  }
+
+  .platforms {
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>
